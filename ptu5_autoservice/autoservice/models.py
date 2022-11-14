@@ -95,5 +95,9 @@ class OrderLine(models.Model):
     def total(self):
         return self.quantity * self.price
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.order.save()
+
     def __str__(self) -> str:
         return f"{self.service.name}: {self.quantity} x {self.price}"
