@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.views import generic
 from . import models
 
 
@@ -19,3 +20,12 @@ def car_detail_view(request, pk):
         'object': get_object_or_404(models.Car, pk=pk),
     })
 
+
+class OrderListView(generic.ListView):
+    model = models.Order
+    template_name = 'autoservice/order_list.html'
+
+
+class OrderDetailView(generic.DetailView):
+    model = models.Order
+    template_name = 'autoservice/order_detail.html'
