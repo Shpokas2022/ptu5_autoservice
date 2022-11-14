@@ -39,6 +39,16 @@ class Service(models.Model):
 
 
 class Order(models.Model):
+    STATUS_CHOICES = (
+        ('n', _('new')),
+        ('a', _('advance payment taken')),
+        ('o', _('ordered parts')),
+        ('w', _('working')),
+        ('d', _('done')),
+        ('c', _('cancelled')),
+        ('p', _('paid')),
+    )
+
     car = models.ForeignKey(
         Car, 
         verbose_name=_("car"), 
@@ -47,6 +57,8 @@ class Order(models.Model):
     )
     total = models.DecimalField(_("total amount"), max_digits=18, decimal_places=2, default=0)
     date = models.DateField(_("date"), auto_now_add=True)
+    status = models.CharField(_("status"), max_length=1, choices=STATUS_CHOICES, default='n')
+    estimate_date = models.DateField(_("estimate date"), null=True, blank=True)
 
     def get_total(self):
         total = 0
