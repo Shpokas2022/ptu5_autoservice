@@ -10,6 +10,7 @@ class CarModel(models.Model):
     model = models.CharField(_("model"), max_length=50)
     year = models.IntegerField(_("year"), choices=YEARS_CHOICES)
     engine = models.CharField(_("engine"), max_length=50)
+    cover = models.ImageField('cover', upload_to='covers', blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.make} {self.model} ({self.year}), {self.engine}"
