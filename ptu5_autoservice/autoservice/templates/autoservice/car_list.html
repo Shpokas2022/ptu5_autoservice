@@ -10,8 +10,8 @@
 {% for car_object in car_list %}
     <li class='car'>
         <a href="{% url 'car' car_object.pk %}">
-            {% if car.cover %}
-                <img src="{{ car.cover.url }}">
+            {% if car_object.picture %}
+                <img src="{{ car_object.picture.url }}">
             {% else %}
                 <img src="{% static 'autoservice/img/mini_cooper_animation.jpg' %}">
             {% endif %}

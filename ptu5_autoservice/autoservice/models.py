@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from datetime import date
@@ -10,7 +11,7 @@ class CarModel(models.Model):
     model = models.CharField(_("model"), max_length=50)
     year = models.IntegerField(_("year"), choices=YEARS_CHOICES)
     engine = models.CharField(_("engine"), max_length=50)
-    cover = models.ImageField('cover', upload_to='covers', blank=True, null=True)
+    
 
     def __str__(self) -> str:
         return f"{self.make} {self.model} ({self.year}), {self.engine}"
@@ -26,6 +27,8 @@ class Car(models.Model):
     plate = models.CharField(_("license plate"), max_length=10)
     vin = models.CharField(_("VIN number"), max_length=30)
     client = models.CharField(_("client name"), max_length=100)
+    picture = models.ImageField('picture', upload_to='pictures', blank=True, null=True)
+    
 
     def __str__(self) -> str:
         return f"{self.car_model.make} {self.car_model.model}, {self.plate}, {self.client}"
@@ -60,7 +63,13 @@ class Order(models.Model):
     date = models.DateField(_("date"), auto_now_add=True)
     status = models.CharField(_("status"), max_length=1, choices=STATUS_CHOICES, default='n')
     estimate_date = models.DateField(_("estimate date"), null=True, blank=True)
-
+    # owner = models.ForeignKey(
+    #     get_user_model(),
+    #     verbose_name="car owner",
+    #     on_delete=models.SET_NULL,
+    #     null=True, blank=True,
+    #     related_name="ownes",
+    # )
     def get_total(self):
         total = 0
         for line in self.order_lines.all():

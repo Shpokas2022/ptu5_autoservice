@@ -17,12 +17,13 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = (OrderLineInline,)
     list_filter = ('date', 'status')
     list_display = ('id', 'date', 'total', 'car')
-
+    # list_editable = ('client',)
 
 class CarAdmin(admin.ModelAdmin):
     list_display = ('client', 'car_model', 'plate', 'vin')
     list_filter = ('client', 'car_model')
     search_fields = ('vin', 'plate')
+    
 
 
 class ServiceAdmin(admin.ModelAdmin):
