@@ -3,14 +3,30 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from . import models
+from . models import Car, Service, Order
 
 
 def index(request):
-    return render(request, 'autoservice/index.html', {
-        'cars_count': models.Car.objects.count(),
-        'services_count': models.Service.objects.count(),
-        'orders_count': models.Order.objects.count(),
-    })
+    # return render(request, 'autoservice/index.html', {
+    #     'cars_count': models.Car.objects.count(),
+    #     'services_count': models.Service.objects.count(),
+    #     'orders_count': models.Order.objects.count(),
+    #     'visits_count': request.session.get('visits_count').count(),
+    # })
+    cars_count = Car.objects.count()
+    services_count = Service.objects.count()
+    orders_count = Order.objects.count()
+    visits_count = request.session.get('visits_count', 1)
+    request.session['visits_count'] = visits_count + 1
+    
+    context = {
+        'cars_count': cars_count,
+        'services_count': services_count,
+        'orders_count': orders_count,
+        'visits_count': visits_count,
+    }
+
+    return render(request, 'autoservice/index.html', context)
 
 def car_list_view(request):
     car_list = models.Car.objects.all()
