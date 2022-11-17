@@ -16,8 +16,8 @@ class OrderLineInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     inlines = (OrderLineInline,)
     list_filter = ('date', 'status')
-    list_display = ('id', 'date', 'total', 'car')
-    # list_editable = ('client',)
+    list_display = ('id', 'date', 'total', 'car', 'owner')
+    list_editable = ('owner',)
 
 class CarAdmin(admin.ModelAdmin):
     list_display = ('client', 'car_model', 'plate', 'vin')

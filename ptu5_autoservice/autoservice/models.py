@@ -63,13 +63,13 @@ class Order(models.Model):
     date = models.DateField(_("date"), auto_now_add=True)
     status = models.CharField(_("status"), max_length=1, choices=STATUS_CHOICES, default='n')
     estimate_date = models.DateField(_("estimate date"), null=True, blank=True)
-    # owner = models.ForeignKey(
-    #     get_user_model(),
-    #     verbose_name="car owner",
-    #     on_delete=models.SET_NULL,
-    #     null=True, blank=True,
-    #     related_name="ownes",
-    # )
+    owner = models.ForeignKey(
+        get_user_model(),
+        verbose_name="car owner",
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name="ownes",
+    )
     def get_total(self):
         total = 0
         for line in self.order_lines.all():
