@@ -38,7 +38,7 @@ def car_list_view(request):
             Q(car_model__make__icontains=search) |
             Q(car_model__model__icontains=search)
         )
-    paginator = Paginator(car_list, 2)
+    paginator = Paginator(car_list, 4)
     page_number = request.GET.get('page')
     paged_cars = paginator.get_page(page_number)
     return render(request, 'autoservice/car_list.html', {
@@ -53,7 +53,7 @@ def car_detail_view(request, pk):
 
 class OrderListView(generic.ListView):
     model = models.Order
-    paginate_by = 2
+    paginate_by = 4
     template_name = 'autoservice/order_list.html'
 
     def get_queryset(self):

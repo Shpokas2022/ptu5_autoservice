@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from datetime import date
+from django.utils.timezone import datetime
+from tinymce.models import HTMLField
 
 
 class CarModel(models.Model):
@@ -28,6 +30,7 @@ class Car(models.Model):
     vin = models.CharField(_("VIN number"), max_length=30)
     client = models.CharField(_("client name"), max_length=100)
     picture = models.ImageField('picture', upload_to='pictures', blank=True, null=True)
+    description = HTMLField('description', blank=True, null=True)
     
 
     def __str__(self) -> str:
@@ -70,6 +73,13 @@ class Order(models.Model):
         null=True, blank=True,
         related_name="ownes",
     )
+
+    @property
+    def is_overdue(self):
+        if self.estimate_date and self.estimate_date < datetime.date(datetime.utcnow()):
+            return True
+        return False 
+        
     def get_total(self):
         total = 0
         for line in self.order_lines.all():
@@ -101,9 +111,6 @@ class OrderLine(models.Model):
     quantity = models.IntegerField(_("quantity"), default=1)
     price = models.DecimalField(_("price"), max_digits=18, decimal_places=2)
 
-    @property
-    def total(self):
-        return self.quantity * self.price
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -3,7 +3,8 @@ from . import models
 
 
 class OrderLineAdmin(admin.ModelAdmin):
-    list_display = ('service', 'quantity', 'price', 'total', 'order')
+    # list_display = ('service', 'quantity', 'price', 'total', 'order')
+    list_display = ('service', 'quantity', 'price', 'order')
     ordering = ('order', 'id')
     list_filter = ('order', )
 

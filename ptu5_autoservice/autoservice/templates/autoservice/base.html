@@ -17,7 +17,7 @@
                 <a href="{% url 'cars' %}">Cars</a>
                 <a href="{% url 'orders' %}">Orders</a>
                 <span class="spacer"></span>
-                <span>{{ user }}</span>
+                {% comment %} <span>{{ user }}</span> {% endcomment %}
                 {% if user.is_authenticated %}
                     <span>{{ user }}</span>
                     <a href="{% url 'logout' %}">Logout</a>
